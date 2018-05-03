@@ -21,23 +21,51 @@ public class Cinema {
 		liten.displaySchedule();
 		/*
 		
+		public void hallMenu () {
+			System.out.pritnln("1. liten");
+			System.out.pritnln("2. medel");
+			System.out.pritnln("3. stor");
+		}
+		
 		System.out.println("1. Display schedule");
 		System.out.println("2. Add show");
+		System.out.println("3. Book seat");
 		
 		if (choice == 1) {
 			System.out.println("Choose hall:");
-			
-			
+			hallMenu();
 			switch (choice) {
-			case 1: all
+			case 1:
 			break;
-			case
+			case 2:
+			break;
+			case 3:
+			break;
 				
 			}
 			
 			else if (choice == 2) {
+			System.out.println("Add a new show");
+				hallMenu();
 				switch (choice)
 				case 1:
+				break:
+				case 2:
+				break:
+				case 3:
+				break;
+			}
+			
+			else if (choice == 3) {
+			System.out.println("Book a seat");
+			hallMenu();
+			switch (choice) {
+			case 1:
+			break:
+			case 2:
+			break;
+			}
+			
 			}
 			
 		}*/
