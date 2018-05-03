@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MovieHall {
@@ -12,25 +13,37 @@ public class MovieHall {
 		this.name = name;
 		
 		this.schedule = new ArrayList <Show>();
-		
 	}
 	
 	private ArrayList <Show> schedule;
 	
 	public void addShow(Show show) {
-		//TODO: overlap test
+		for (Show oldShow: schedule) {
+			if(isOverlap(show, oldShow)) {
+				System.out.println("OVERLAPP!!!!!!!!!!!!! ABORT!!!!!");
+				return;
+			}
+		}
+
 		schedule.add(show);
+	}
+
+	public boolean isOverlap(Show newShow, Show oldShow) {
+		if (newShow.getStartTime().compareTo(oldShow.getEndTime()) < 0
+				&& oldShow.getStartTime().compareTo(newShow.getEndTime()) < 0) {
+			return true;
+		}
+		return false;
 	}
 
 	public void displaySchedule() {
 		System.out.print("Salong: " + this.name + "\n");
 		for(Show show: schedule) {
-			
+
 			Movie movie = show.getMovie();
-			System.out.println("time: "+show.getStartTime() + "\n" + "movie: " + show.getMovie().getTitle());
+			System.out.println("time: " + show.getStartTime() + "\n" + "movie: " + show.getMovie().getTitle());
 			System.out.println("Length: " + movie.getLength());
 		}
-		
 	}
 
 	public int getRows() {

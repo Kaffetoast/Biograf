@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 
 public class Show {
 	
@@ -26,14 +27,31 @@ public class Show {
 
 	public LocalDateTime getStartTime() {
 		return startTime;
-		
+	}
+
+	public LocalDateTime getEndTime() {
+		return startTime.plusMinutes(movie.getLength());
+	}
+
+	public boolean reserveSeat(int row, int seat) {
+
+		boolean currentSeat = this.seats[row][seat];
+		if (currentSeat) {
+			System.out.println("Error: Seat is already reserved!");
+			return false;
+		} else {
+			System.out.println("Success: Seat successfully reserved!");
+			this.seats[row][seat] = true;
+			return true;
+		}
 	}
 
 	public void setStartTime(LocalDateTime startTime) {
 		this.startTime = startTime;
 	}
-	
-	
+
+
+
 }
 
 
