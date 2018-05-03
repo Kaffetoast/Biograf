@@ -95,9 +95,8 @@ public class Cinema {
 			} else if(choice == 3) { //Reserve seat
 				
 				MovieCatalog.showMovies();
-				System.out.println("Enter movie:");
-				
-				int movie = Integer.parseInt(input.readLine());
+
+				int movie = menu("Enter movie number: ", input);
 				Movie selectedMovie = MovieCatalog.getMovie(movie);
 				
 				System.out.println("What date: ");

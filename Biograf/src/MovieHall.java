@@ -31,12 +31,12 @@ public class MovieHall {
 		schedule.add(show);
 	}
 
-	public List<Show> filterByMovie(String title) {
+	public List<Show> filterByMovie(List<Show> list, String title) {
 		return schedule.stream().filter(x -> x.getMovie().getTitle() == title).collect(Collectors.toList());
 	}
 	
-	public List<Show> filterByDate(LocalDateTime date) {
-		return schedule.stream().filter(x -> date.toLocalDate().isEqual(x.getStartTime().toLocalDate())).collect(Collectors.toList());
+	public List<Show> filterByDate(List <Show> list, LocalDateTime date) {
+		return list.stream().filter(x -> date.toLocalDate().isEqual(x.getStartTime().toLocalDate())).collect(Collectors.toList());
 		
 	}
 	
@@ -55,42 +55,31 @@ public class MovieHall {
 	}
 
 	public void displaySchedule() {
-		System.out.print("Salong: " + this.name + "\n");
+		System.out.print("Salong: " + this.name + "\n\n");
+
 		
 		if(schedule.isEmpty()) {
 			System.out.println("No shows, sorry.");
+			System.out.println("--------------------");
 			return;
 		}
-		for(Show show: schedule) {
 
-			Movie movie = show.getMovie();
-			System.out.println("time: " + show.getStartTime() + "\n" + "movie: " + show.getMovie().getTitle());
-			System.out.println("Length: " + movie.getLength());
+		for(Show show: schedule) {
+			System.out.println(show);
 		}
+
 	}
 
 	public int getRows() {
 		return rows;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
 	public int getCols() {
 		return cols;
 	}
 
-	public void setCols(int cols) {
-		this.cols = cols;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public ArrayList<Show> getSchedule() {

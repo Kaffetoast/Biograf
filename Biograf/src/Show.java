@@ -60,7 +60,9 @@ public class Show {
 
 	@Override
 	public String toString() {
-		return "[hall=" + hall + ", movie=" + movie.getTitle() + ", startTime=" + startTime + "]";
+		Movie movie = getMovie();
+		return "Hall: "+ hall + "\nTime: " + getStartTime() + "\n" + "movie: " + getMovie().getTitle() +
+		"\nLength: " + movie.getLength() + "\n--------------------";
 	}
 
 }
