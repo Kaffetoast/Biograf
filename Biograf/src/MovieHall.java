@@ -38,6 +38,11 @@ public class MovieHall {
 
 	public void displaySchedule() {
 		System.out.print("Salong: " + this.name + "\n");
+		
+		if(schedule.isEmpty()) {
+			System.out.println("No shows, sorry.");
+			return;
+		}
 		for(Show show: schedule) {
 
 			Movie movie = show.getMovie();
