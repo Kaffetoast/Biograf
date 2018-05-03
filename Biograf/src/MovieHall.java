@@ -27,7 +27,7 @@ public class MovieHall {
 		for(Show show: schedule) {
 			
 			Movie movie = show.getMovie();
-			System.out.println("time: "+show.getStartTime()+ "\n" + "movie: " + show.getMovie().getTitle());
+			System.out.println("time: "+show.getStartTime() + "\n" + "movie: " + show.getMovie().getTitle());
 			System.out.println("Length: " + movie.getLength());
 		}
 		
