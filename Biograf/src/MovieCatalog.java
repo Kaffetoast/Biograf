@@ -1,17 +1,39 @@
+import java.util.ArrayList;
 
 public class MovieCatalog {
 
-	public static Movie getMovie(int id) {
+	private static Movie water = new Movie("PepsiCola", 180);
+	private static Movie bottle = new Movie("Bottle", 120);
+	private static Movie bonaqua = new Movie("Bonaqua", 180);
+	
+	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
+	
+	public MovieCatalog() {
 		
-		switch(id) {
+	}
+	
+	public static void addMovies() {
+		movieList.add(water);
+		movieList.add(bottle);
+		movieList.add(bonaqua);
+	}
+	public static Movie getMovie(int index) {
 		
-		case 0:
-			return new Movie("ETT", 180);
-		case 1: 
-			return new Movie("TVA", 120);
-		default:
-			return null;
+		return movieList.get(index);
+	
+	}						
+	
+	public static void showMovies() {
+		
+		int i = 0;
+		System.out.println("Title\t\tLength ");
+		for(Movie movie: movieList) {
+			
+			System.out.println(i +"." + movie.getTitle() + "\t"+movie.getLength());
+			i = i +1;
+			
 		}
+		
 		
 	}
 }

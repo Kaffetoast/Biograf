@@ -1,5 +1,8 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieHall {
 
@@ -28,6 +31,21 @@ public class MovieHall {
 		schedule.add(show);
 	}
 
+	public List<Show> filterByMovie(String title) {
+		return schedule.stream().filter(x -> x.getMovie().getTitle() == title).collect(Collectors.toList());
+	}
+	
+	public List<Show> filterByDate(LocalDateTime date) {
+		return schedule.stream().filter(x -> date.toLocalDate().isEqual(x.getStartTime().toLocalDate())).collect(Collectors.toList());
+		
+	}
+	
+	public List <Show> filterByMovieAndDate(String title, LocalDate date) {
+		return schedule.stream().filter(x -> date.isEqual(x.getStartTime().toLocalDate())
+				&& x.getMovie().getTitle() == title).collect(Collectors.toList());
+	}
+	
+	
 	public boolean isOverlap(Show newShow, Show oldShow) {
 		if (newShow.getStartTime().compareTo(oldShow.getEndTime()) < 0
 				&& oldShow.getStartTime().compareTo(newShow.getEndTime()) < 0) {
@@ -83,6 +101,10 @@ public class MovieHall {
 		this.schedule = schedule;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	
 }

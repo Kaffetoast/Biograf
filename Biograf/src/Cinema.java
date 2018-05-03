@@ -4,8 +4,8 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Cinema {
 
@@ -18,20 +18,17 @@ public class Cinema {
 		MovieHall liten = new MovieHall("Liten", 10, 25);
 		MovieHall medel = new MovieHall("Medel", 20, 32);
 		MovieHall stor = new MovieHall("Stor", 30, 40);
-
-		ArrayList<Movie> movieList = new ArrayList<Movie>();
-
 		hallList.add(liten);
 		hallList.add(medel);
 		hallList.add(stor);
+		
+		MovieCatalog.addMovies();
 
 		Show show = new Show(liten, MovieCatalog.getMovie(0), LocalDateTime.now());
-		Show show2 = new Show(liten, MovieCatalog.getMovie(1), LocalDateTime.now());
-
+		Show show2 = new Show(liten, MovieCatalog.getMovie(1), LocalDateTime.now().plusHours(4));
+		
 		liten.addShow(show);
 		liten.addShow(show2);
-
-		liten.displaySchedule();
 
 		while (true) {
 
@@ -95,6 +92,30 @@ public class Cinema {
 				LocalDateTime time = LocalDateTime.of(LocalDate.parse(startDate), LocalTime.parse(startTime));
 				hall.addShow(new Show(hall, movie, time));
 
+			} else if(choice == 3) { //Reserve seat
+				
+				MovieCatalog.showMovies();
+				System.out.println("Enter movie:");
+				
+				int movie = Integer.parseInt(input.readLine());
+				Movie selectedMovie = MovieCatalog.getMovie(movie);
+				
+				System.out.println("What date: ");
+				String startDate = input.readLine();
+				
+				LocalDate date = LocalDate.parse(startDate);
+				
+				for(MovieHall hall: hallList) {
+					List <Show> list = hall.filterByMovieAndDate(selectedMovie.getTitle(), date);
+					
+					for(Show filteredShow : list) {
+						System.out.println(filteredShow);
+					}
+				}
+				
+				//choice = menu("1. Liten\n2. Medel\n3. Stor", input);
+				
+				
 			}
 		}
 		

@@ -12,7 +12,7 @@ public class Show {
 	public Show(MovieHall hall, Movie movie, LocalDateTime startTime) {
 		this.movie = movie;
 		this.startTime = startTime;
-		this.hall = hall;
+		this.setHall(hall);
 		
 		this.seats = new boolean[hall.getRows()][hall.getCols()];
 	}
@@ -50,7 +50,18 @@ public class Show {
 		this.startTime = startTime;
 	}
 
+	public MovieHall getHall() {
+		return hall;
+	}
 
+	public void setHall(MovieHall hall) {
+		this.hall = hall;
+	}
+
+	@Override
+	public String toString() {
+		return "[hall=" + hall + ", movie=" + movie.getTitle() + ", startTime=" + startTime + "]";
+	}
 
 }
 
