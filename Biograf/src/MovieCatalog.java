@@ -7,20 +7,14 @@ public class MovieCatalog {
 	private static Movie bonaqua = new Movie("Bonaqua", 180);
 	
 	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
-	
-	public MovieCatalog() {
-		
-	}
-	
+
 	public static void addMovies() {
 		movieList.add(water);
 		movieList.add(bottle);
 		movieList.add(bonaqua);
 	}
 	public static Movie getMovie(int index) {
-		
 		return movieList.get(index);
-	
 	}						
 	
 	public static void showMovies() {
@@ -31,9 +25,6 @@ public class MovieCatalog {
 			
 			System.out.println(i +"." + movie.getTitle() + "\t"+movie.getLength());
 			i = i +1;
-			
 		}
-		
-		
 	}
 }

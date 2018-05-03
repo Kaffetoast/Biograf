@@ -3,7 +3,6 @@ public class Movie {
 
 	private String title;
 	private int length;
-	private int id;
 	
 	public Movie(String title, int length) {
 		this.title = title;
@@ -30,9 +29,4 @@ public class Movie {
 	public String toString() {
 		return "Title: " + title + " | Length: " + length;
 	}
-
-
-	
-	
-	
 }

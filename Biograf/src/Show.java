@@ -12,7 +12,7 @@ public class Show {
 	public Show(MovieHall hall, Movie movie, LocalDateTime startTime) {
 		this.movie = movie;
 		this.startTime = startTime;
-		this.setHall(hall);
+		this.hall = hall;
 		
 		this.seats = new boolean[hall.getRows()][hall.getCols()];
 	}
@@ -28,15 +28,12 @@ public class Show {
 	public LocalDateTime getStartTime() {
 		return startTime;
 	}
-
 	public LocalDateTime getEndTime() {
 		return startTime.plusMinutes(movie.getLength());
 	}
 
 	public boolean reserveSeat(int row, int seat) {
-
-		boolean currentSeat = this.seats[row][seat];
-		if (currentSeat) {
+		if (isReserved(row, seat)) {
 			System.out.println("Error: Seat is already reserved!");
 			return false;
 		} else {
@@ -46,16 +43,17 @@ public class Show {
 		}
 	}
 
-	public void setStartTime(LocalDateTime startTime) {
-		this.startTime = startTime;
+	public boolean reserveManySeats(int row, int seat, int tickets) {
+
+		return false;
+	}
+
+	public boolean isReserved(int row, int seat) {
+		return this.seats[row][seat];
 	}
 
 	public MovieHall getHall() {
 		return hall;
-	}
-
-	public void setHall(MovieHall hall) {
-		this.hall = hall;
 	}
 
 	@Override

@@ -27,7 +27,6 @@ public class MovieHall {
 				return;
 			}
 		}
-
 		schedule.add(show);
 	}
 
@@ -55,9 +54,7 @@ public class MovieHall {
 	}
 
 	public void displaySchedule() {
-		System.out.print("Salong: " + this.name + "\n\n");
 
-		
 		if(schedule.isEmpty()) {
 			System.out.println("No shows, sorry.");
 			System.out.println("--------------------");
@@ -73,22 +70,16 @@ public class MovieHall {
 	public int getRows() {
 		return rows;
 	}
-
 	public int getCols() {
 		return cols;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public ArrayList<Show> getSchedule() {
 		return schedule;
 	}
 
-	public void setSchedule(ArrayList<Show> schedule) {
-		this.schedule = schedule;
-	}
 	
 	@Override
 	public String toString() {

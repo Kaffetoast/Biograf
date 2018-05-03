@@ -35,8 +35,7 @@ public class Cinema {
 			int choice = menu("1. Display schedule\n2. Add show\n3. Book seat", input);
 
 			if (choice == 1) {
-				System.out.println("Choose hall");
-				choice = menu("1. Liten\n2. Medel\n3. Stor\n4. All", input);
+				choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor\n4. All", input);
 
 				switch (choice) {
 				case 1: // Show liten
@@ -60,8 +59,7 @@ public class Cinema {
 
 				}
 			} else if (choice == 2) { // Add show menu
-				System.out.println("Choose hall");
-				choice = menu("1. Liten\n2. Medel\n3. Stor", input);
+				choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor", input);
 
 				MovieHall hall = null;
 				switch (choice) {
@@ -75,6 +73,7 @@ public class Cinema {
 					hall = stor;
 					break;
 				}
+				MovieCatalog.showMovies();
 				choice = menu("Choose movie", input);
 				Movie movie = MovieCatalog.getMovie(choice);
 
@@ -99,7 +98,7 @@ public class Cinema {
 				int movie = menu("Enter movie number: ", input);
 				Movie selectedMovie = MovieCatalog.getMovie(movie);
 				
-				System.out.println("What date: ");
+				System.out.println("Enter date: ");
 				String startDate = input.readLine();
 				
 				LocalDate date = LocalDate.parse(startDate);
@@ -111,10 +110,6 @@ public class Cinema {
 						System.out.println(filteredShow);
 					}
 				}
-				
-				//choice = menu("1. Liten\n2. Medel\n3. Stor", input);
-				
-				
 			}
 		}
 		
