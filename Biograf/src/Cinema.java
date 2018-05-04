@@ -245,7 +245,10 @@ public class Cinema {
 					startTime = LocalTime.parse(start);
 
 					LocalDateTime time = LocalDateTime.of(startDate, startTime);
-					hall.addShow(new Show(model.generateId(), hall, movie, time));
+					
+					if(!hall.addShow(new Show(model.generateId(), hall, movie, time))) {
+						System.out.println("Show overlaps with other show!");
+					}
 					return;
 				}
 			} catch (IOException e) {

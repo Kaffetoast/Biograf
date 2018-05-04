@@ -2,9 +2,12 @@ import java.util.ArrayList;
 
 public class MovieCatalog {
 
-	private static Movie water = new Movie("PepsiCola", 180);
-	private static Movie bottle = new Movie("Bottle", 120);
-	private static Movie bonaqua = new Movie("Bonaqua", 180);
+	private static Movie movie1 = new Movie("Star Wars", 180);
+	private static Movie movie2 = new Movie("Star Trek", 120);
+	private static Movie movie3 = new Movie("Batman", 180);
+	private static Movie movie4 = new Movie("Superman", 180);
+	private static Movie movie5 = new Movie("Tomb Raider", 180);
+	private static Movie movie6 = new Movie("The Avengers", 180);
 	
 	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
 
@@ -15,9 +18,12 @@ public class MovieCatalog {
 		MovieCatalog.movieList = movieList;
 	}
 	public static void addMovies() {
-		movieList.add(water);
-		movieList.add(bottle);
-		movieList.add(bonaqua);
+		movieList.add(movie1);
+		movieList.add(movie2);
+		movieList.add(movie3);
+		movieList.add(movie4);
+		movieList.add(movie5);
+		movieList.add(movie6);
 	}
 	public static Movie getMovie(int index) {
 		return movieList.get(index);

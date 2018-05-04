@@ -26,14 +26,14 @@ public class MovieHall {
 	
 	private ArrayList <Show> schedule;
 	
-	public void addShow(Show show) {
+	public boolean addShow(Show show) {
 		for (Show oldShow: schedule) {
 			if(isOverlap(show, oldShow)) {
-				System.out.println("Shows overlap");
-				return;
+				return false;
 			}
 		}
 		schedule.add(show);
+		return true;
 	}
 
 	public List<Show> filterByMovie(List<Show> list, String title) {

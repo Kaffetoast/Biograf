@@ -96,7 +96,7 @@ public class Show {
 				if(this.seats[i][j]) {
 					rowOfSeats += "X ";
 				} else {
-					rowOfSeats += "O ";
+					rowOfSeats += "- ";
 				}
 			}
 			
