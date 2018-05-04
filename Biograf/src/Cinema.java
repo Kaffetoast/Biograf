@@ -51,6 +51,7 @@ public class Cinema {
 		Movie selectedMovie = null;
 		Show selectedShow = null;
 		List<Show> list = null;
+		int numOfSeats = 0;
 
 		while (true) {
 			if (step == 0) {
@@ -106,37 +107,61 @@ public class Cinema {
 					}
 					step++;
 				}
-				int row = 0;
-				int seat = 0;
-				if (step == 3) {
-					String output = "Select row (0 - " + selectedShow.getHall().getRows() + ")";
-					row = menu(output, input);
 
-					if (row > selectedShow.getHall().getRows() || row < 0) {
-						System.out.println("that seat doesn't exist!");
-						continue;
-					}
-					output = "Select seat (0 - " + selectedShow.getHall().getCols() + ")";
-					seat = menu(output, input);
-					if (seat > selectedShow.getHall().getCols() || seat < 0) {
-						System.out.println("that seat doesn't exist!");
+				if (step == 3) {
+					numOfSeats = menu("Enter amount of seats: ", input);
+					if (numOfSeats == -1) {
 						continue;
 					}
 
 					step++;
 				}
 
+				String spreadOutSeating = null;
 				if (step == 4) {
-					int numOfSeats = menu("Enter amount of seats: ", input);
-					if (numOfSeats == -1) {
-						continue;
+					System.out.println("Do you want seats to be spread out? (y/n)");
+					spreadOutSeating = input.readLine();
+
+					step++;
+				}
+
+				int row = 0;
+				int seat = 0;
+				int reservations = 0;
+				if (step == 5) {
+
+					while (true) {
+						System.out.println("Reserve seat "+(reservations+1)+" / "+numOfSeats );
+						String output = "Select row (0 - " + selectedShow.getHall().getRows() + ")";
+						row = menu(output, input);
+
+						if (row > selectedShow.getHall().getRows() || row < 0) {
+							System.out.println("that seat doesn't exist!");
+							continue;
+						}
+						output = "Select seat (0 - " + selectedShow.getHall().getCols() + ")";
+						seat = menu(output, input);
+						if (seat > selectedShow.getHall().getCols() || seat < 0) {
+							System.out.println("that seat doesn't exist!");
+							continue;
+						}
+
+						if(spreadOutSeating.toLowerCase().equals("n")) {
+							if (selectedShow.reserveManySeats(row, seat, numOfSeats)) {
+								System.out.println("Successfully reserved " + numOfSeats + " seat(s)");
+							} else {
+								System.out.println(numOfSeats + " seats are not available at this position.");
+								continue;
+							}
+							break;
+						} else if(spreadOutSeating.toLowerCase().equals("y")) {
+							if(selectedShow.reserveSeat(row, seat)) {
+								reservations++;
+								if(reservations == numOfSeats) return;
+							} 
+						}
 					}
 
-					if (selectedShow.reserveManySeats(row, seat, numOfSeats)) {
-						System.out.println("Successfully reserved " + numOfSeats + " seat(s)");
-					} else {
-						System.out.println(numOfSeats + " seats are not available at this position.");
-					}
 					return;
 				}
 
@@ -239,7 +264,7 @@ public class Cinema {
 			if (choice < model.getHallList().size()) {
 				model.getHallList().get(choice).displaySchedule();
 				return;
-			} else if (choice == model.getHallList().size()) { //All
+			} else if (choice == model.getHallList().size()) { // All
 				for (MovieHall hall : model.getHallList()) {
 					hall.displaySchedule();
 				}
