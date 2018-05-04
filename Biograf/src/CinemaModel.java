@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class CinemaModel {
 
 	private static int idCounter = 3;
-    MovieHall liten = new MovieHall("Liten", 10, 25, 1);
-    MovieHall medel = new MovieHall("Medel", 20, 32, 2);
-    MovieHall stor = new MovieHall("Stor", 30, 40, 3);
+    MovieHall liten = new MovieHall("Liten", 4, 4, 1);
+    MovieHall medel = new MovieHall("Medel",8,8, 2);
+    MovieHall stor = new MovieHall("Stor", 16, 16, 3);
     private ArrayList <MovieHall> hallData = new ArrayList <MovieHall>();
 
     private ArrayList <Show> showData = new ArrayList<Show>(Arrays.asList(

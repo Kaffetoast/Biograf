@@ -70,7 +70,7 @@ public class Show {
 		
 		for (int i = seat-1; i > seat-numOfSeats; i--) {
 			
-			if(i < 0) {
+			if(i < 1) {
 				return false;
 			}
 			if(!isReserved(row, i)) {
@@ -85,6 +85,23 @@ public class Show {
 			}
 		}
 		return false;
+	}
+	
+	public void displaySeats() {
+		for(int i = 1; i <= this.hall.getRows(); i++) {
+			
+			String rowOfSeats = "";
+			
+			for(int j = 1; j <= this.hall.getCols(); j++) {
+				if(this.seats[i][j]) {
+					rowOfSeats += "X ";
+				} else {
+					rowOfSeats += "O ";
+				}
+			}
+			
+			System.out.println(rowOfSeats);
+		}
 	}
 
 	public boolean isReserved(int row, int seat) {
