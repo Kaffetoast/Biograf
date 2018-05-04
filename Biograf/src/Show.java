@@ -17,6 +17,7 @@ public class Show {
 		this.seats = new boolean[hall.getRows()][hall.getCols()];
 	}
 
+
 	public Movie getMovie() {
 		return movie;
 	}

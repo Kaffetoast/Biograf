@@ -9,11 +9,17 @@ public class MovieHall {
 	private int rows;
 	private int cols;
 	private String name;
-	
-	public MovieHall(String name, int rows, int cols) {
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public MovieHall(String name, int rows, int cols, int id) {
 		this.rows = rows;
 		this.cols = cols;
 		this.name = name;
+		this.id = id;
 		
 		this.schedule = new ArrayList <Show>();
 	}

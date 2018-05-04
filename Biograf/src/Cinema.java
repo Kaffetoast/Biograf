@@ -11,24 +11,11 @@ public class Cinema {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-
-		ArrayList<MovieHall> hallList = new ArrayList<MovieHall>();
-
-		MovieHall liten = new MovieHall("Liten", 10, 25);
-		MovieHall medel = new MovieHall("Medel", 20, 32);
-		MovieHall stor = new MovieHall("Stor", 30, 40);
-		hallList.add(liten);
-		hallList.add(medel);
-		hallList.add(stor);
-		
 		MovieCatalog.addMovies();
+		CinemaModel model = new CinemaModel();
 
-		Show show = new Show(liten, MovieCatalog.getMovie(0), LocalDateTime.now());
-		Show show2 = new Show(liten, MovieCatalog.getMovie(1), LocalDateTime.now().plusHours(4));
-		
-		liten.addShow(show);
-		liten.addShow(show2);
+
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 
 		while (true) {
 
@@ -39,17 +26,17 @@ public class Cinema {
 
 				switch (choice) {
 				case 1: // Show liten
-					liten.displaySchedule();
+					model.getHallList().get(0).displaySchedule();
 					break;
 
 				case 2:
-					medel.displaySchedule();
+					model.getHallList().get(1).displaySchedule();
 					break;
 				case 3:
-					stor.displaySchedule();
+					model.getHallList().get(2).displaySchedule();
 					break;
 				case 4: // Show all
-					for (MovieHall hall : hallList) {
+					for (MovieHall hall : model.getHallList()) {
 						hall.displaySchedule();
 					}
 
@@ -64,13 +51,13 @@ public class Cinema {
 				MovieHall hall = null;
 				switch (choice) {
 				case 1:
-					hall = liten;
+					hall = model.getHallList().get(0);
 					break;
 				case 2:
-					hall = medel;
+					hall = model.getHallList().get(1);
 					break;
 				case 3:
-					hall = stor;
+					hall = model.getHallList().get(2);
 					break;
 				}
 				MovieCatalog.showMovies();
@@ -103,7 +90,7 @@ public class Cinema {
 				
 				LocalDate date = LocalDate.parse(startDate);
 				
-				for(MovieHall hall: hallList) {
+				for(MovieHall hall: model.getHallList()) {
 					List <Show> list = hall.filterByMovieAndDate(selectedMovie.getTitle(), date);
 					
 					for(Show filteredShow : list) {
