@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,86 +46,173 @@ public class Cinema {
 	}
 
 	private static void reserveSeatMenu() {
-		MovieCatalog.showMovies();
 
-		int movie = menu("Enter movie number: ", input);
-		Movie selectedMovie = MovieCatalog.getMovie(movie);
+		int step = 0;
+		Movie selectedMovie = null;
+		Show selectedShow = null;
+		List<Show> list = null;
 
-		System.out.println("Enter date: ");
-		String startDate;
-		try {
-			startDate = input.readLine();
-			LocalDate date = LocalDate.parse(startDate);
-			List<Show> list = new ArrayList<Show>();
+		while (true) {
+			if (step == 0) {
+				MovieCatalog.showMovies();
 
-			for (MovieHall hall : model.getHallList()) {
-				list.addAll(hall.filterByMovieAndDate(selectedMovie.getTitle(), date));
-
-				for (Show filteredShow : list) {
-					System.out.println(filteredShow);
-
+				int movie = menu("Enter movie number: ", input);
+				if (movie == -1)
+					continue;
+				
+				if(movie >= MovieCatalog.getMovieList().size()) {
+					System.out.println("no such movie id");
+					continue;
 				}
+
+				selectedMovie = MovieCatalog.getMovie(movie);
+				step++;
 			}
 
-			int selectedId = menu("Enter show id: ", input);
-			Show selectedShow = list.stream().filter(x -> x.getId() == selectedId).findFirst().orElse(null);
+			try {
+				if (step == 1) {
+					System.out.println("Enter date: ");
+					String startDate;
 
-			int row = menu("Select row", input);
-			int seat = menu("Select seat", input);
+					startDate = input.readLine();
+					LocalDate date = LocalDate.parse(startDate);
+					list = new ArrayList<Show>();
 
-			selectedShow.reserveSeat(row, seat);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+					for (MovieHall hall : model.getHallList()) {
+						list.addAll(hall.filterByMovieAndDate(selectedMovie.getTitle(), date));
+					}
+					
+					for (Show filteredShow : list) {
+						System.out.println(filteredShow);
+					}
+					
+					if(list.isEmpty()) {
+						System.out.println("Not showing movie on that date");
+						return;
+					}
+					step++;
+				}
+
+				if (step == 2) {
+					int selectedId = menu("Enter show id: ", input);
+					if (selectedId == -1) continue;
+					
+					selectedShow = list.stream().filter(x -> x.getId() == selectedId).findFirst().orElse(null);
+					
+					if(selectedShow == null) {
+						System.out.println("id does not exit!");
+						continue;
+					}
+					step++;
+				}
+				if (step == 3) {
+					String output = "Select row (0 - " + selectedShow.getHall().getRows() + ")";
+					int row = menu(output, input);
+					
+					if(row > selectedShow.getHall().getRows() || row < 0) {
+						System.out.println("that seat doesn't exist!");
+						continue;
+					}
+					output = "Select seat (0 - " + selectedShow.getHall().getCols() + ")";
+					int seat = menu(output, input);
+					if(seat > selectedShow.getHall().getCols() || seat < 0) {
+						System.out.println("that seat doesn't exist!");
+						continue;
+					}
+
+					if(!selectedShow.reserveSeat(row, seat)) {
+						continue;
+					}
+					return;
+				}
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (DateTimeParseException e) {
+				System.out.println("Wrong format");
+			}
 		}
 
 	}
 
 	private static void addShowMenu() {
 
+		int choice;
+		MovieHall hall = null;
+		Movie movie = null;
 		int step = 0;
+		LocalDate startDate = null;
+		LocalTime startTime = null;
+		String start = null;
 
 		while (true) {
+			if (step == 0) {
 
-			int choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor", input);
+				choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor", input);
 
-			MovieHall hall = null;
-			switch (choice) {
-			case 1:
-				hall = model.getHallList().get(0);
-				break;
-			case 2:
-				hall = model.getHallList().get(1);
-				break;
-			case 3:
-				hall = model.getHallList().get(2);
-				break;
-			default:
-				continue;
-			}
-			MovieCatalog.showMovies();
-			choice = menu("Choose movie", input);
-			Movie movie = MovieCatalog.getMovie(choice);
-
-			if (movie == null) {
-				System.out.println("no movie with id + " + choice);
-				return;
+				switch (choice) {
+				case 1:
+					hall = model.getHallList().get(0);
+					step++;
+					break;
+				case 2:
+					hall = model.getHallList().get(1);
+					step++;
+					break;
+				case 3:
+					hall = model.getHallList().get(2);
+					step++;
+					break;
+				default:
+					System.out.println("idiot");
+				}
 			}
 
-			System.out.println("Start date: ");
-			String startDate;
+			if (step == 1) {
+
+				MovieCatalog.showMovies();
+				choice = menu("Choose movie", input);
+				if (choice == -1)
+					continue;
+				if (choice >= MovieCatalog.getMovieList().size()) {
+					System.out.println("No such movie id.");
+					continue;
+				}
+
+				movie = MovieCatalog.getMovie(choice);
+
+				if (movie == null) {
+					System.out.println("no movie with id + " + choice);
+				} else {
+					step++;
+				}
+			}
+
 			try {
-				startDate = input.readLine();
-				System.out.println("Start time: ");
-				String startTime = input.readLine();
 
-				LocalDateTime time = LocalDateTime.of(LocalDate.parse(startDate), LocalTime.parse(startTime));
-				hall.addShow(new Show(5, hall, movie, time));
+				if (step == 2) {
+					System.out.println("Start date: (YYYY-MM-dd)");
+					start = input.readLine();
+					startDate = LocalDate.parse(start);
+					step++;
+				}
+				if (step == 3) {
+					System.out.println("Start time: (HH:mm)");
+					start = input.readLine();
+					startTime = LocalTime.parse(start);
+
+					LocalDateTime time = LocalDateTime.of(startDate, startTime);
+					hall.addShow(new Show(5, hall, movie, time));
+					return;
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			} catch (DateTimeParseException e) {
+				System.out.println("Wrong format");
 
+			}
 		}
 
 	}

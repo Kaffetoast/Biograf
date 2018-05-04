@@ -15,7 +15,7 @@ public class Show {
 		this.startTime = startTime;
 		this.hall = hall;
 		this.id = id;
-		this.seats = new boolean[hall.getRows()][hall.getCols()];
+		this.seats = new boolean[hall.getRows()+1][hall.getCols()+1];
 	}
 
 

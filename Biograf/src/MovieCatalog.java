@@ -8,6 +8,12 @@ public class MovieCatalog {
 	
 	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
 
+	public static ArrayList<Movie> getMovieList() {
+		return movieList;
+	}
+	public static void setMovieList(ArrayList<Movie> movieList) {
+		MovieCatalog.movieList = movieList;
+	}
 	public static void addMovies() {
 		movieList.add(water);
 		movieList.add(bottle);
