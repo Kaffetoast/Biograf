@@ -12,9 +12,9 @@ public class CinemaModel {
     ));
 
     private ArrayList <Show> showData = new ArrayList<Show>(Arrays.asList(
-            new Show(liten, MovieCatalog.getMovie(0), LocalDateTime.now()),
-            new Show(stor, MovieCatalog.getMovie(1), LocalDateTime.now()),
-            new Show(medel, MovieCatalog.getMovie(0), LocalDateTime.now())
+            new Show(0, liten, MovieCatalog.getMovie(0), LocalDateTime.now()),
+            new Show(1, stor, MovieCatalog.getMovie(1), LocalDateTime.now()),
+            new Show(2, medel, MovieCatalog.getMovie(0), LocalDateTime.now())
     ));
 
     private ArrayList<MovieHall> hallList = new ArrayList<MovieHall>(); //list of all movie halls

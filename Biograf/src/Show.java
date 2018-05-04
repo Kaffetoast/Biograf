@@ -6,14 +6,15 @@ public class Show {
 	private MovieHall hall;
 	private Movie movie;
 	private LocalDateTime startTime;
+	private int id;
 	
 	private boolean[][] seats;
 	
-	public Show(MovieHall hall, Movie movie, LocalDateTime startTime) {
+	public Show(int id, MovieHall hall, Movie movie, LocalDateTime startTime) {
 		this.movie = movie;
 		this.startTime = startTime;
 		this.hall = hall;
-		
+		this.id = id;
 		this.seats = new boolean[hall.getRows()][hall.getCols()];
 	}
 
@@ -60,8 +61,13 @@ public class Show {
 	@Override
 	public String toString() {
 		Movie movie = getMovie();
-		return "Hall: "+ hall + "\nTime: " + getStartTime() + "\n" + "movie: " + getMovie().getTitle() +
-		"\nLength: " + movie.getLength() + "\n--------------------";
+		return "Movie: " + getMovie().getTitle() + "\nHall: "+ hall + "\nTime: " + getStartTime() +
+		"\nLength: " + movie.getLength() + "\nShow id: "+ id + "\n--------------------";
+	}
+
+
+	public int getId() {
+		return this.id;
 	}
 
 }
