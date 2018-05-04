@@ -1,5 +1,8 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Show {
 	
@@ -45,8 +48,42 @@ public class Show {
 		}
 	}
 
-	public boolean reserveManySeats(int row, int seat, int tickets) {
-
+	public boolean reserveManySeats(int row, int seat, int numOfSeats) {
+		
+		int reservations = 0;
+		
+		for (int i = seat; i < seat+numOfSeats; i++) {
+			
+			if(i > this.hall.getCols()) {
+				break;
+			}
+			if(!isReserved(row, i)) {
+				this.seats[row][i] = true;
+				reservations++;
+			} else {
+				break;
+			}
+			if(reservations == numOfSeats) {
+				return true;
+			}
+		}
+		
+		for (int i = seat-1; i > seat-numOfSeats; i--) {
+			
+			if(i < 0) {
+				return false;
+			}
+			if(!isReserved(row, i)) {
+				this.seats[row][i] = true;
+				reservations++;
+			} else {
+				break;
+			}
+			
+			if(reservations == numOfSeats) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -60,9 +97,10 @@ public class Show {
 
 	@Override
 	public String toString() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		
 		Movie movie = getMovie();
-		return "Movie: " + getMovie().getTitle() + "\nHall: "+ hall + "\nTime: " + getStartTime() +
-		"\nLength: " + movie.getLength() + "\nShow id: "+ id + "\n--------------------";
+		return "Movie: " + getMovie().getTitle() + "\nHall: "+ hall + "\nTime: " + this.getStartTime().format(formatter) + "\nLength: " + movie.getLength() + "\nShow id: "+ id + "\n--------------------";
 	}
 
 

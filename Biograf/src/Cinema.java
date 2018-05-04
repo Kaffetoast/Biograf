@@ -71,7 +71,7 @@ public class Cinema {
 
 			try {
 				if (step == 1) {
-					System.out.println("Enter date: ");
+					System.out.println("Enter date: (YYYY-MM-dd)");
 					String startDate;
 
 					startDate = input.readLine();
@@ -105,23 +105,36 @@ public class Cinema {
 					}
 					step++;
 				}
+				int row = 0;
+				int seat = 0;
 				if (step == 3) {
 					String output = "Select row (0 - " + selectedShow.getHall().getRows() + ")";
-					int row = menu(output, input);
+					row = menu(output, input);
 					
 					if(row > selectedShow.getHall().getRows() || row < 0) {
 						System.out.println("that seat doesn't exist!");
 						continue;
 					}
 					output = "Select seat (0 - " + selectedShow.getHall().getCols() + ")";
-					int seat = menu(output, input);
+					seat = menu(output, input);
 					if(seat > selectedShow.getHall().getCols() || seat < 0) {
 						System.out.println("that seat doesn't exist!");
 						continue;
 					}
 
-					if(!selectedShow.reserveSeat(row, seat)) {
+					step++;
+				}
+				
+				if(step == 4) {
+					int numOfSeats = menu("Enter amount of seats: ", input);
+					if(numOfSeats == -1) {
 						continue;
+					}
+					
+					if(selectedShow.reserveManySeats(row, seat, numOfSeats)) {
+						System.out.println("Successfully reserved "+numOfSeats+" seat(s)");
+					} else {
+						System.out.println(numOfSeats + " seats are not available at this position.");
 					}
 					return;
 				}
@@ -165,7 +178,7 @@ public class Cinema {
 					step++;
 					break;
 				default:
-					System.out.println("idiot");
+					System.out.println("not a valid choice.");
 				}
 			}
 
@@ -203,7 +216,7 @@ public class Cinema {
 					startTime = LocalTime.parse(start);
 
 					LocalDateTime time = LocalDateTime.of(startDate, startTime);
-					hall.addShow(new Show(5, hall, movie, time));
+					hall.addShow(new Show(model.generateId(), hall, movie, time));
 					return;
 				}
 			} catch (IOException e) {

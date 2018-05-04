@@ -4,12 +4,11 @@ import java.util.Arrays;
 
 public class CinemaModel {
 
+	private static int idCounter = 3;
     MovieHall liten = new MovieHall("Liten", 10, 25, 1);
     MovieHall medel = new MovieHall("Medel", 20, 32, 2);
     MovieHall stor = new MovieHall("Stor", 30, 40, 3);
-    private ArrayList <MovieHall> hallData = new ArrayList <MovieHall>(Arrays.asList(
-
-    ));
+    private ArrayList <MovieHall> hallData = new ArrayList <MovieHall>();
 
     private ArrayList <Show> showData = new ArrayList<Show>(Arrays.asList(
             new Show(0, liten, MovieCatalog.getMovie(0), LocalDateTime.now()),
@@ -47,5 +46,9 @@ public class CinemaModel {
     public ArrayList<MovieHall> getHallList() {
         return hallList;
     }
+	public int generateId() {
+		this.idCounter++;
+		return this.idCounter;
+	}
 
 }

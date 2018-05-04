@@ -29,7 +29,7 @@ public class MovieHall {
 	public void addShow(Show show) {
 		for (Show oldShow: schedule) {
 			if(isOverlap(show, oldShow)) {
-				System.out.println("OVERLAPP!!!!!!!!!!!!! ABORT!!!!!");
+				System.out.println("Shows overlap");
 				return;
 			}
 		}
