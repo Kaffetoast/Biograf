@@ -266,7 +266,9 @@ public class Cinema {
 
 		while (true) {
 			int choice = menu("Choose hall\n0. Liten\n1. Medel\n2. Stor\n3. All", input);
-
+			if(choice == -1) {
+				continue;
+			}
 			if (choice < model.getHallList().size()) {
 				model.getHallList().get(choice).displaySchedule();
 				return;
