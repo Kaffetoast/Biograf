@@ -59,8 +59,8 @@ public class Cinema {
 				int movie = menu("Enter movie number: ", input);
 				if (movie == -1)
 					continue;
-				
-				if(movie >= MovieCatalog.getMovieList().size()) {
+
+				if (movie >= MovieCatalog.getMovieList().size()) {
 					System.out.println("no such movie id");
 					continue;
 				}
@@ -81,12 +81,12 @@ public class Cinema {
 					for (MovieHall hall : model.getHallList()) {
 						list.addAll(hall.filterByMovieAndDate(selectedMovie.getTitle(), date));
 					}
-					
+
 					for (Show filteredShow : list) {
 						System.out.println(filteredShow);
 					}
-					
-					if(list.isEmpty()) {
+
+					if (list.isEmpty()) {
 						System.out.println("Not showing movie on that date");
 						return;
 					}
@@ -95,11 +95,12 @@ public class Cinema {
 
 				if (step == 2) {
 					int selectedId = menu("Enter show id: ", input);
-					if (selectedId == -1) continue;
-					
+					if (selectedId == -1)
+						continue;
+
 					selectedShow = list.stream().filter(x -> x.getId() == selectedId).findFirst().orElse(null);
-					
-					if(selectedShow == null) {
+
+					if (selectedShow == null) {
 						System.out.println("id does not exit!");
 						continue;
 					}
@@ -110,29 +111,29 @@ public class Cinema {
 				if (step == 3) {
 					String output = "Select row (0 - " + selectedShow.getHall().getRows() + ")";
 					row = menu(output, input);
-					
-					if(row > selectedShow.getHall().getRows() || row < 0) {
+
+					if (row > selectedShow.getHall().getRows() || row < 0) {
 						System.out.println("that seat doesn't exist!");
 						continue;
 					}
 					output = "Select seat (0 - " + selectedShow.getHall().getCols() + ")";
 					seat = menu(output, input);
-					if(seat > selectedShow.getHall().getCols() || seat < 0) {
+					if (seat > selectedShow.getHall().getCols() || seat < 0) {
 						System.out.println("that seat doesn't exist!");
 						continue;
 					}
 
 					step++;
 				}
-				
-				if(step == 4) {
+
+				if (step == 4) {
 					int numOfSeats = menu("Enter amount of seats: ", input);
-					if(numOfSeats == -1) {
+					if (numOfSeats == -1) {
 						continue;
 					}
-					
-					if(selectedShow.reserveManySeats(row, seat, numOfSeats)) {
-						System.out.println("Successfully reserved "+numOfSeats+" seat(s)");
+
+					if (selectedShow.reserveManySeats(row, seat, numOfSeats)) {
+						System.out.println("Successfully reserved " + numOfSeats + " seat(s)");
 					} else {
 						System.out.println(numOfSeats + " seats are not available at this position.");
 					}
@@ -233,29 +234,18 @@ public class Cinema {
 	private static void displayScheduleMenu() {
 
 		while (true) {
-			int choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor\n4. All", input);
+			int choice = menu("Choose hall\n0. Liten\n1. Medel\n2. Stor\n3. All", input);
 
-			switch (choice) {
-			case 0:
-				System.exit(0);
-			case 1: // Show liten
-				model.getHallList().get(0).displaySchedule();
+			if (choice < model.getHallList().size()) {
+				model.getHallList().get(choice).displaySchedule();
 				return;
-
-			case 2:
-				model.getHallList().get(1).displaySchedule();
-				return;
-			case 3:
-				model.getHallList().get(2).displaySchedule();
-				return;
-			case 4: // Show all
+			} else if (choice == model.getHallList().size()) { //All
 				for (MovieHall hall : model.getHallList()) {
 					hall.displaySchedule();
 				}
 				return;
-			default:
+			} else {
 				System.out.println("Invalid choice!");
-
 			}
 		}
 	}
