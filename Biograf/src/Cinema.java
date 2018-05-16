@@ -60,6 +60,7 @@ public class Cinema {
 	private static void reserveSeatMenu() {
 
 		int step = 0;
+		String spreadOutSeating = null;
 		Movie selectedMovie = null;
 		Show selectedShow = null;
 		List<Show> list = null;
@@ -120,9 +121,17 @@ public class Cinema {
 					step++;
 				}
 
+
 				if (step == 3) {
+					System.out.println("Do you want seats to be spread out? (y/n)");
+					spreadOutSeating = input.readLine();
+
+					step++;
+				}
+
+				if (step == 4) {
 					numOfSeats = menu("Enter amount of seats: ", input);
-					if (numOfSeats > selectedShow.getHall().getRows()) {
+					if (numOfSeats > selectedShow.getHall().getRows() && spreadOutSeating.equals("n")) {
 						System.out.println("You can't reserve more than one row!");
 						continue;
 					}
@@ -133,13 +142,7 @@ public class Cinema {
 					step++;
 				}
 
-				String spreadOutSeating = null;
-				if (step == 4) {
-					System.out.println("Do you want seats to be spread out? (y/n)");
-					spreadOutSeating = input.readLine();
 
-					step++;
-				}
 
 				int row = 0;
 				int seat = 0;
