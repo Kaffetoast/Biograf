@@ -3,8 +3,9 @@ public class Movie {
 
 	private String title;
 	private int length;
+	private int id;
 	
-	public Movie(String title, int length) {
+	public Movie(String title, int length, int id) {
 		this.title = title;
 		this.length = length;
 	}

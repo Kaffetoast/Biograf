@@ -1,13 +1,12 @@
+import db.Database;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MovieCatalog {
 
-	private static Movie movie1 = new Movie("Star Wars", 180);
-	private static Movie movie2 = new Movie("Star Trek", 120);
-	private static Movie movie3 = new Movie("Batman", 180);
-	private static Movie movie4 = new Movie("Superman", 180);
-	private static Movie movie5 = new Movie("Tomb Raider", 180);
-	private static Movie movie6 = new Movie("The Avengers", 180);
+
 	
 	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
 
@@ -17,13 +16,10 @@ public class MovieCatalog {
 	public static void setMovieList(ArrayList<Movie> movieList) {
 		MovieCatalog.movieList = movieList;
 	}
-	public static void addMovies() {
-		movieList.add(movie1);
-		movieList.add(movie2);
-		movieList.add(movie3);
-		movieList.add(movie4);
-		movieList.add(movie5);
-		movieList.add(movie6);
+
+
+	public static void addMovie(Movie movie) {
+        movieList.add(movie);
 	}
 	public static Movie getMovie(int index) {
 		return movieList.get(index);
@@ -39,4 +35,26 @@ public class MovieCatalog {
 			i = i +1;
 		}
 	}
+
+    public static void fetchMovies(Database database) {
+        database.connect();
+        String query = "SELECT * FROM \"Movie\"";
+        database.query(query);
+
+        ResultSet rs = database.query(query);
+
+        try {
+            while (rs.next()) {
+                int id = rs.getInt("movieID");
+                String title = rs.getString("title");
+                int length = rs.getInt("length");
+
+                MovieCatalog.addMovie(new Movie(title, length, id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        database.disconnect();
+    }
 }

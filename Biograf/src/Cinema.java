@@ -1,6 +1,10 @@
+import db.Database;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,28 +20,34 @@ public class Cinema {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		MovieCatalog.addMovies();
+		Database database = new Database();
+		MovieCatalog.fetchMovies(database);
+
 		model = new CinemaModel();
+		model.fetchHalls(database);
 
 		input = new BufferedReader(new InputStreamReader(System.in));
 
 		while (true) {
 
-			int choice = menu("1. Display schedule\n2. Add show\n3. Book seat", input);
+			int choice = menu("1. Display schedule\n2. Add show\n3. Book seat\n4. Show movies", input);
 			if (choice == -1)
 				continue;
 
 			switch (choice) {
-			case 1:
-				displayScheduleMenu();
-				break;
+                case 1:
+                    displayScheduleMenu();
+                    break;
 
-			case 2: // Add show menu
-				addShowMenu();
-				break;
-			case 3: // Reserve seat
-				reserveSeatMenu();
-				break;
+                case 2: // Add show menu
+                    addShowMenu();
+                    break;
+                case 3: // Reserve seat
+                    reserveSeatMenu();
+                    break;
+				case 4:
+				    MovieCatalog.showMovies();
+				    break;
 			default:
 				System.out.println("invalid choice");
 			}
@@ -265,17 +275,17 @@ public class Cinema {
 	private static void displayScheduleMenu() {
 
 		while (true) {
-			int choice = menu("Choose hall\n0. Liten\n1. Medel\n2. Stor\n3. All", input);
+			int choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor\n0. All", input);
 			if(choice == -1) {
 				continue;
 			}
-			if (choice < model.getHallList().size()) {
-				model.getHallList().get(choice).displaySchedule();
-				return;
-			} else if (choice == model.getHallList().size()) { // All
-				for (MovieHall hall : model.getHallList()) {
-					hall.displaySchedule();
-				}
+            if (choice == 0) { // All
+                for (MovieHall hall : model.getHallList()) {
+                    hall.displaySchedule();
+                }
+                return;
+            } else if (choice <= model.getHallList().size()) {
+				model.getHallById(choice).displaySchedule();
 				return;
 			} else {
 				System.out.println("Invalid choice!");
