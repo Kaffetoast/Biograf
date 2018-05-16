@@ -33,6 +33,7 @@ public class MovieHall {
 			}
 		}
 		schedule.add(show);
+
 		return true;
 	}
 

@@ -51,37 +51,50 @@ public class CinemaModel {
 	public void fetchShows(MovieHall hall, Database database) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		//Add randomly generated shows
-		Random ran = new Random();
-		
-		for (int i = 0; i < 10; i++) {
-			int randomMovie = ran.nextInt((MovieCatalog.getMovieList().size()));
-			int randomDay = ran.nextInt(31);
-			int randomHour = ran.nextInt(24);
-			int id = generateId();
-			Show show = new Show(generateId(), hall, MovieCatalog.getMovie(randomMovie),
-					LocalDateTime.now().plusDays(randomDay).plusHours(randomHour));
+		String query = "SELECT * FROM \"Show\" INNER JOIN \"ShowInHall\" ON \"Show\".\"showID\" = \"ShowInHall\".\"showID\"" +
+				"WHERE \"hallID\" = "+hall.getId() + ";";
 
-			hall.addShow(show);
+		ResultSet rs = database.query(query);
 
-			LocalDateTime date = LocalDateTime.now().plusDays(randomDay).plusHours(randomHour);
-			String query = "INSERT INTO \"Show\" (starttime, \"movieID\") VALUES ('"
-					+ date.format(formatter) + "', " + randomMovie + ") RETURNING \"showID\";";
-			ResultSet rs = database.query(query);
-			int showID = -1;
-			try {
-				rs.next();
-				 showID = rs.getInt(1);
-			} catch (SQLException e) {
-				e.printStackTrace();
+		try {
+			while (rs.next()) {
+				int show = rs.getInt("showID");
+				String dateString = rs.getString("starttime");
+				LocalDateTime startTime = LocalDateTime.parse(dateString, formatter);
+
+				int movieID = rs.getInt("movieID");
+				Movie movie = MovieCatalog.getMovieById(movieID);
+
+				hall.addShow(new Show(show, hall, movie, startTime));
 			}
-
-			String query2 = "INSERT INTO \"ShowInHall\" (\"showID\", \"hallID\") " +
-					"VALUES (" + showID + ", " + hall.getId() + ")";
-
-			database.insert(query2);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
+		hall.getSchedule().sort(Comparator.comparing(a -> a.getStartTime()));
+		//"SELECT * FROM \"Show\" INNER JOIN \"ShowInHall\" ON \"Show\".\"showID\" = \"ShowInHall\".\"showID\";
+	}
+
+	public void insertShow(MovieHall hall, Show show, Database database) {
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		LocalDateTime date = show.getStartTime();
+		String query = "INSERT INTO \"Show\" (starttime, \"movieID\") VALUES ('"
+				+ date.format(formatter) + "', " + show.getMovie().getId() + ") RETURNING \"showID\";";
+		ResultSet rs = database.query(query);
+		int showID = -1;
+		try {
+			rs.next();
+			showID = rs.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		query = "INSERT INTO \"ShowInHall\" (\"showID\", \"hallID\") " +
+				"VALUES (" + showID + ", " + hall.getId() + ")";
+
+		database.insert(query);
 	}
 
 	public ArrayList<MovieHall> getHallList() {

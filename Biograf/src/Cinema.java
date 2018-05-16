@@ -17,10 +17,11 @@ public class Cinema {
 
 	private static BufferedReader input;
 	private static CinemaModel model;
+	private static Database database;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		Database database = new Database();
+		database = new Database();
 		MovieCatalog.fetchMovies(database);
 
 		model = new CinemaModel();
@@ -160,6 +161,10 @@ public class Cinema {
 						if(spreadOutSeating.toLowerCase().equals("n")) {
 							if (selectedShow.reserveManySeats(row, seat, numOfSeats)) {
 								System.out.println("Successfully reserved " + numOfSeats + " seat(s)");
+								////
+								String query = "INSERT INTO \"Seat\" VALUES ("+row+", "+seat+", "+selectedShow.getId()+");";
+								database.insert(query);
+
 								selectedShow.displaySeats();
 							} else {
 								System.out.println(numOfSeats + " seats are not available at this position.");
@@ -169,6 +174,8 @@ public class Cinema {
 						} else if(spreadOutSeating.toLowerCase().equals("y")) {
 							System.out.println((reservations+1)+" / "+numOfSeats + " seats reserved." );
 							if(selectedShow.reserveSeat(row, seat)) {
+								String query = "INSERT INTO \"Seat\" VALUES ("+row+", "+seat+", "+selectedShow.getId()+");";
+								database.insert(query);
 								reservations++;
 								if(reservations == numOfSeats) return;
 							} 
@@ -255,9 +262,11 @@ public class Cinema {
 					startTime = LocalTime.parse(start);
 
 					LocalDateTime time = LocalDateTime.of(startDate, startTime);
-					
-					if(!hall.addShow(new Show(model.generateId(), hall, movie, time))) {
+					Show show = new Show(model.generateId(), hall, movie, time);
+					if(!hall.addShow(show)) {
 						System.out.println("Show overlaps with other show!");
+					} else {
+						model.insertShow(hall, show, database);
 					}
 					return;
 				}

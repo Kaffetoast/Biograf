@@ -8,6 +8,7 @@ public class Movie {
 	public Movie(String title, int length, int id) {
 		this.title = title;
 		this.length = length;
+		this.id = id;
 	}
 
 	public String getTitle() {
@@ -29,5 +30,9 @@ public class Movie {
 	@Override
 	public String toString() {
 		return "Title: " + title + " | Length: " + length;
+	}
+
+	public int getId() {
+		return this.id;
 	}
 }

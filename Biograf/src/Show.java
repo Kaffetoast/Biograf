@@ -3,6 +3,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Show {
 	
@@ -51,6 +53,7 @@ public class Show {
 	public boolean reserveManySeats(int row, int seat, int numOfSeats) {
 		
 		int reservations = 0;
+		HashMap <Integer, Integer> seats = new HashMap<Integer, Integer>();
 		
 		for (int i = seat; i < seat+numOfSeats; i++) {
 			
