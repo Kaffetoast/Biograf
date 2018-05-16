@@ -50,10 +50,10 @@ public class Show {
 		}
 	}
 
-	public boolean reserveManySeats(int row, int seat, int numOfSeats) {
+	public ArrayList<Integer> reserveManySeats(int row, int seat, int numOfSeats) {
 		
 		int reservations = 0;
-		HashMap <Integer, Integer> seats = new HashMap<Integer, Integer>();
+		ArrayList <Integer> seats = new ArrayList<Integer>();
 		
 		for (int i = seat; i < seat+numOfSeats; i++) {
 			
@@ -62,32 +62,34 @@ public class Show {
 			}
 			if(!isReserved(row, i)) {
 				this.seats[row][i] = true;
+				seats.add(i);
 				reservations++;
 			} else {
 				break;
 			}
 			if(reservations == numOfSeats) {
-				return true;
+				return seats;
 			}
 		}
 		
 		for (int i = seat-1; i > seat-numOfSeats; i--) {
 			
 			if(i < 1) {
-				return false;
+				return null;
 			}
 			if(!isReserved(row, i)) {
 				this.seats[row][i] = true;
+				seats.add(i);
 				reservations++;
 			} else {
 				break;
 			}
 			
 			if(reservations == numOfSeats) {
-				return true;
+				return seats;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 	public void displaySeats() {

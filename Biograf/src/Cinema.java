@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -159,11 +160,14 @@ public class Cinema {
 						}
 
 						if(spreadOutSeating.toLowerCase().equals("n")) {
-							if (selectedShow.reserveManySeats(row, seat, numOfSeats)) {
+							ArrayList<Integer> seats = null;
+							if ((seats = selectedShow.reserveManySeats(row, seat, numOfSeats)) != null) {
 								System.out.println("Successfully reserved " + numOfSeats + " seat(s)");
 								////
-								String query = "INSERT INTO \"Seat\" VALUES ("+row+", "+seat+", "+selectedShow.getId()+");";
-								database.insert(query);
+								for(int currentSeat : seats) {
+									String query = "INSERT INTO \"Seat\" VALUES (" + row + ", " + currentSeat + ", " + selectedShow.getId() + ");";
+									database.insert(query);
+								}
 
 								selectedShow.displaySeats();
 							} else {
