@@ -110,4 +110,22 @@ public class CinemaModel {
 		return this.idCounter;
 	}
 
+	public void fetchSeats(Database database, Show show) {
+
+		String query = "SELECT * FROM \"Seat\" WHERE \"showID\" = " + show.getId();
+		ResultSet rs = database.query(query);
+
+		show.clearSeats();
+
+		try {
+			while (rs.next()) {
+				int col = rs.getInt("col");
+				int row = rs.getInt("row");
+
+				show.getSeats()[row][col] = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

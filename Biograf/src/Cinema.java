@@ -122,6 +122,10 @@ public class Cinema {
 
 				if (step == 3) {
 					numOfSeats = menu("Enter amount of seats: ", input);
+					if (numOfSeats > selectedShow.getHall().getRows()) {
+						System.out.println("You can't reserve more than one row!");
+						continue;
+					}
 					if (numOfSeats == -1) {
 						continue;
 					}
@@ -141,6 +145,8 @@ public class Cinema {
 				int seat = 0;
 				int reservations = 0;
 				if (step == 5) {
+
+					model.fetchSeats(database, selectedShow);
 
 					while (true) {
 						selectedShow.displaySeats();

@@ -14,7 +14,11 @@ public class Show {
 	private int id;
 	
 	private boolean[][] seats;
-	
+
+	public boolean[][] getSeats() {
+		return seats;
+	}
+
 	public Show(int id, MovieHall hall, Movie movie, LocalDateTime startTime) {
 		this.movie = movie;
 		this.startTime = startTime;
@@ -130,6 +134,13 @@ public class Show {
 		return this.id;
 	}
 
+	public void clearSeats() {
+		for(int i = 0; i < hall.getRows(); i++) {
+			for(int j = 0; j < hall.getCols(); j++) {
+				seats[i][j] = false;
+			}
+		}
+	}
 }
 
 
