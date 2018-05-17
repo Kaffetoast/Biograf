@@ -78,7 +78,7 @@ public class MovieHall {
 		filteredSchedule =  schedule.stream().filter(x -> x.getMovie().getId() == id).collect(Collectors.toList());
 
 		if(filteredSchedule.isEmpty()) {
-			System.out.println("No shows, sorry.");
+			System.out.println("No shows, in hall " + this.name + "." );
 			System.out.println("--------------------");
 			return;
 		}

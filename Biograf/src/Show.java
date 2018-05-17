@@ -142,6 +142,16 @@ public class Show {
 		}
 	}
 
+	public boolean isAtCapacity() {
+		for(int i = 1; i <= hall.getRows(); i++) {
+			for (int j = 1; j <= hall.getCols(); j++) {
+				if (seats[i][j] == false) {
+					return false;
+				}
+			}
+		}
+			return true;
+	}
 	public void setId(int showID) {
 		this.id = showID;
 	}

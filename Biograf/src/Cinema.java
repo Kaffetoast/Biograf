@@ -123,6 +123,12 @@ public class Cinema {
 
 
                 if (step == 3) {
+                    cinemaData.fetchSeats(selectedShow);
+
+                    if(selectedShow.isAtCapacity()) {
+                        System.out.println("Hall is at capacity!");
+                        break;
+                    }
                     System.out.println("Is it ok to spread out seats? (y/n)");
                     spreadOutSeating = input.readLine();
 
@@ -147,8 +153,6 @@ public class Cinema {
                 int seat = 0;
                 int reservations = 0;
                 if (step == 5) {
-
-                    cinemaData.fetchSeats(selectedShow);
 
                     while (true) {
                         selectedShow.displaySeats();
