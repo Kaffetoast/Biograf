@@ -1,0 +1,59 @@
+CREATE SCHEMA public AUTHORIZATION postgres;
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+CREATE TABLE public."Hall" (
+	"rows" int4 NULL,
+	cols int4 NULL,
+	"name" varchar NULL,
+	"hallID" serial NOT NULL,
+	CONSTRAINT hall_pk PRIMARY KEY ("hallID")
+)
+WITH (
+	OIDS=FALSE
+) ;
+
+
+CREATE TABLE public."Movie" (
+	title varchar NULL,
+	length int4 NULL,
+	"movieID" serial NOT NULL,
+	CONSTRAINT movie_pk PRIMARY KEY ("movieID")
+)
+WITH (
+	OIDS=FALSE
+) ;
+
+CREATE TABLE public."Seat" (
+	"row" int4 NOT NULL,
+	col int4 NOT NULL,
+	"showID" serial NOT NULL,
+	CONSTRAINT seat_pk PRIMARY KEY ("row",col,"showID"),
+	CONSTRAINT seat_show_fk FOREIGN KEY ("showID") REFERENCES public."Show"("showID")
+)
+WITH (
+	OIDS=FALSE
+) ;
+
+CREATE TABLE public."Show" (
+	starttime timestamp NOT NULL,
+	"showID" serial NOT NULL,
+	"movieID" int4 NOT NULL,
+	CONSTRAINT show_pk PRIMARY KEY ("showID"),
+	CONSTRAINT show_movie_fk FOREIGN KEY ("movieID") REFERENCES public."Movie"("movieID")
+)
+WITH (
+	OIDS=FALSE
+) ;
+
+CREATE TABLE public."ShowInHall" (
+	"showID" serial NOT NULL,
+	"hallID" serial NOT NULL,
+	CONSTRAINT showinhall_pk PRIMARY KEY ("showID","hallID"),
+	CONSTRAINT showinhall_hall_fk FOREIGN KEY ("hallID") REFERENCES public."Hall"("hallID") ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT showinhall_show_fk FOREIGN KEY ("showID") REFERENCES public."Show"("showID") ON DELETE CASCADE ON UPDATE CASCADE
+)
+WITH (
+	OIDS=FALSE
+) ;
+
