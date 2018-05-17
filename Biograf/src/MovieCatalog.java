@@ -3,6 +3,7 @@ import db.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class MovieCatalog {
 	private static ArrayList <Movie> movieList = new ArrayList <Movie>();
@@ -24,12 +25,12 @@ public class MovieCatalog {
 	
 	public static void showMovies() {
 
-		int i = 0;
-		System.out.println("Title\t\tLength ");
+		movieList.sort(Comparator.comparing(a -> a.getId()));
+		System.out.println("movieID\t\tTitle\t\tLength ");
 		for(Movie movie: movieList) {
 			
-			System.out.println(i +"." + movie.getTitle() + "\t"+movie.getLength());
-			i = i +1;
+			System.out.println(movie.getId() +")" + movie.getTitle() + "\t"+movie.getLength());
+
 		}
 	}
 

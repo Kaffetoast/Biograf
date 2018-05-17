@@ -10,7 +10,6 @@ import java.util.Comparator;
 public class CinemaData {
 
 	private Database database;
-	private ArrayList<MovieHall> hallData = new ArrayList<MovieHall>();
 	private ArrayList<MovieHall> hallList = new ArrayList<MovieHall>(); // list of all movie halls
 
 	public CinemaData() {

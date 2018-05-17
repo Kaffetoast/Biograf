@@ -64,16 +64,15 @@ public class Cinema {
             if (step == 0) {
                 MovieCatalog.showMovies();
 
-                int movie = menu("Enter movie number: ", input);
-                if (movie == -1)
+                int movieID = menu("Enter movie id: ", input);
+                if (movieID == -1)
                     continue;
 
-                if (movie >= MovieCatalog.getMovieList().size()) {
+                selectedMovie = MovieCatalog.getMovieById(movieID);
+                if(selectedMovie == null) {
                     System.out.println("no such movie id");
                     continue;
                 }
-
-                selectedMovie = MovieCatalog.getMovie(movie);
                 step++;
             }
 
@@ -85,9 +84,10 @@ public class Cinema {
                     startDate = input.readLine();
                     LocalDate date = LocalDate.parse(startDate);
                     list = new ArrayList<Show>();
-                    
+
                     //filter shows by movie and date
                     for (MovieHall hall : cinemaData.getHallList()) {
+                        cinemaData.fetchShows(hall);
                         list.addAll(hall.filterByMovieAndDate(selectedMovie.getTitle(), date));
                     }
 
@@ -236,18 +236,14 @@ public class Cinema {
             if (step == 1) {
 
                 MovieCatalog.showMovies();
-                choice = menu("Choose movie", input);
+                choice = menu("Choose movie id", input);
                 if (choice == -1)
                     continue;
-                if (choice >= MovieCatalog.getMovieList().size()) {
-                    System.out.println("No such movie id.");
-                    continue;
-                }
-
-                movie = MovieCatalog.getMovie(choice);
+                movie = MovieCatalog.getMovieById(choice);
 
                 if (movie == null) {
-                    System.out.println("no movie with id + " + choice);
+                    System.out.println("no movie with id " + choice);
+                    continue;
                 } else {
                     step++;
                 }
