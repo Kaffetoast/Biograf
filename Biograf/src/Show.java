@@ -141,6 +141,10 @@ public class Show {
 			}
 		}
 	}
+
+	public void setId(int showID) {
+		this.id = showID;
+	}
 }
 
 

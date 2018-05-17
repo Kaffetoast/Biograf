@@ -5,23 +5,19 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Random;
 
-public class CinemaModel {
+public class CinemaData {
 
-	private static int idCounter = 5;
-
+	private Database database;
 	private ArrayList<MovieHall> hallData = new ArrayList<MovieHall>();
-
 	private ArrayList<MovieHall> hallList = new ArrayList<MovieHall>(); // list of all movie halls
 
-	public CinemaModel() {
-
+	public CinemaData() {
+		this.database = new Database();
 	}
 
-	public void fetchHalls(Database database) {
+	public void fetchHalls() {
 		database.connect();
 		String query = "SELECT * FROM \"Hall\"";
 		database.query(query);
@@ -43,12 +39,12 @@ public class CinemaModel {
 		hallList.sort(Comparator.comparing(a -> a.getId()));
 
 		for (MovieHall hall : hallList) {
-			fetchShows(hall, database);
+			fetchShows(hall);
 		}
 		database.disconnect();
 	}
 
-	public void fetchShows(MovieHall hall, Database database) {
+	public void fetchShows(MovieHall hall) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String query = "SELECT * FROM \"Show\" INNER JOIN \"ShowInHall\" ON \"Show\".\"showID\" = \"ShowInHall\".\"showID\"" +
@@ -75,7 +71,7 @@ public class CinemaModel {
 		//"SELECT * FROM \"Show\" INNER JOIN \"ShowInHall\" ON \"Show\".\"showID\" = \"ShowInHall\".\"showID\";
 	}
 
-	public void insertShow(MovieHall hall, Show show, Database database) {
+	public int insertShow(MovieHall hall, Show show) {
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -95,6 +91,7 @@ public class CinemaModel {
 				"VALUES (" + showID + ", " + hall.getId() + ")";
 
 		database.insert(query);
+		return showID;
 	}
 
 	public ArrayList<MovieHall> getHallList() {
@@ -105,12 +102,7 @@ public class CinemaModel {
 		return hallList.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
 	}
 
-	public int generateId() {
-		this.idCounter++;
-		return this.idCounter;
-	}
-
-	public void fetchSeats(Database database, Show show) {
+	public void fetchSeats(Show show) {
 
 		String query = "SELECT * FROM \"Seat\" WHERE \"showID\" = " + show.getId();
 		ResultSet rs = database.query(query);
@@ -127,5 +119,32 @@ public class CinemaModel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void fetchMovies() {
+		database.connect();
+		String query = "SELECT * FROM \"Movie\"";
+		database.query(query);
+
+		ResultSet rs = database.query(query);
+
+		try {
+			while (rs.next()) {
+				int id = rs.getInt("movieID");
+				String title = rs.getString("title");
+				int length = rs.getInt("length");
+
+				MovieCatalog.addMovie(new Movie(title, length, id));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		database.disconnect();
+	}
+
+	public void reserveSeat(Show selectedShow, int row, int seat) {
+		String query = "INSERT INTO \"Seat\" VALUES (" + row + ", " + seat + ", " + selectedShow.getId() + ");";
+		database.insert(query);
 	}
 }
