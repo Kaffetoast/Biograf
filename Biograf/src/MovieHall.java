@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ public class MovieHall {
 	private int cols;
 	private String name;
 	private int id;
+	private ArrayList <Show> schedule;
 
 	public int getId() {
 		return id;
@@ -24,7 +26,7 @@ public class MovieHall {
 		this.schedule = new ArrayList <Show>();
 	}
 	
-	private ArrayList <Show> schedule;
+
 	
 	public boolean addShow(Show show) {
 		for (Show oldShow: schedule) {
@@ -37,8 +39,8 @@ public class MovieHall {
 		return true;
 	}
 
-	public List<Show> filterByMovie(List<Show> list, String title) {
-		return schedule.stream().filter(x -> x.getMovie().getTitle() == title).collect(Collectors.toList());
+	public List<Show> filterByMovie(int id) {
+		return schedule.stream().filter(x -> x.getMovie().getId() == id).collect(Collectors.toList());
 	}
 	
 	public List<Show> filterByDate(List <Show> list, LocalDateTime date) {
@@ -61,16 +63,28 @@ public class MovieHall {
 	}
 
 	public void displaySchedule() {
-
 		if(schedule.isEmpty()) {
 			System.out.println("No shows, sorry.");
 			System.out.println("--------------------");
 			return;
 		}
 
-		for(Show show: schedule) {
-			System.out.println(show);
+		schedule.forEach(x-> System.out.println(x));
+	}
+
+	public void displayScheduleByMovieID(int id) {
+
+		List <Show> filteredSchedule;
+		filteredSchedule =  schedule.stream().filter(x -> x.getMovie().getId() == id).collect(Collectors.toList());
+
+		if(filteredSchedule.isEmpty()) {
+			System.out.println("No shows, sorry.");
+			System.out.println("--------------------");
+			return;
 		}
+
+		filteredSchedule.sort(Comparator.comparing(x -> x.getStartTime()));
+		filteredSchedule.forEach(x-> System.out.println(x));
 
 	}
 

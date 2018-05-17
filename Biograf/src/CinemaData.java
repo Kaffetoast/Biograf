@@ -22,7 +22,7 @@ public class CinemaData {
 		database.query(query);
 
 		ResultSet rs = database.query(query);
-
+		if(rs == null) return;
 		try {
 			while (rs.next()) {
 				int id = rs.getInt("hallID");
@@ -67,7 +67,6 @@ public class CinemaData {
 		}
 
 		hall.getSchedule().sort(Comparator.comparing(a -> a.getStartTime()));
-		//"SELECT * FROM \"Show\" INNER JOIN \"ShowInHall\" ON \"Show\".\"showID\" = \"ShowInHall\".\"showID\";
 	}
 
 	public int insertShow(MovieHall hall, Show show) {
@@ -126,7 +125,7 @@ public class CinemaData {
 		database.query(query);
 
 		ResultSet rs = database.query(query);
-
+		if(rs == null) return;
 		try {
 			while (rs.next()) {
 				int id = rs.getInt("movieID");

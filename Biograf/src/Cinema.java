@@ -59,12 +59,13 @@ public class Cinema {
         Show selectedShow = null;
         List<Show> list = null;
         int numOfSeats = 0;
+        int movieID = -1;
 
         while (true) {
             if (step == 0) {
                 MovieCatalog.showMovies();
 
-                int movieID = menu("Enter movie id: ", input);
+                movieID = menu("Enter movie id: ", input);
                 if (movieID == -1)
                     continue;
 
@@ -78,6 +79,10 @@ public class Cinema {
 
             try {
                 if (step == 1) {
+
+                    for(MovieHall hall: cinemaData.getHallList()) {
+                        hall.displayScheduleByMovieID(movieID);
+                    }
                     System.out.println("Enter date: (YYYY-MM-dd)");
                     String startDate;
 
@@ -212,25 +217,14 @@ public class Cinema {
 
         while (true) {
             if (step == 0) {
-
                 choice = menu("Choose hall\n1. Liten\n2. Medel\n3. Stor", input);
+                hall = cinemaData.getHallById(choice);
 
-                switch (choice) {
-                    case 1:
-                        hall = cinemaData.getHallList().get(0);
-                        step++;
-                        break;
-                    case 2:
-                        hall = cinemaData.getHallList().get(1);
-                        step++;
-                        break;
-                    case 3:
-                        hall = cinemaData.getHallList().get(2);
-                        step++;
-                        break;
-                    default:
-                        System.out.println("not a valid choice.");
+                if(hall == null) {
+                    System.out.println("not a valid choice.");
+                    continue;
                 }
+                step++;
             }
 
             if (step == 1) {

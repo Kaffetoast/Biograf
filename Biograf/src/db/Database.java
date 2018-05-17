@@ -11,12 +11,14 @@ public class Database {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println (e);
-            System.exit (-1);
         }
     }
     public ResultSet query(String queryString) {
 
         connect();
+        if(connection == null) {
+            return null;
+        }
         // execute query
         Statement statement = null;
         try {
@@ -52,6 +54,7 @@ public class Database {
                     "jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "abc");
 
         } catch (SQLException e) {
+            System.out.println("DATABASE IS DOWN!!!!!!!!!!");
             return false;
         }
         return true;
@@ -59,7 +62,9 @@ public class Database {
 
     public void disconnect() {
         try {
-            connection.close();
+            if(connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
