@@ -1,0 +1,667 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.1
+
+-- Started on 2018-05-17 12:17:18
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 185 (class 1259 OID 24576)
+-- Name: Hall; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE "Hall" (
+    rows integer,
+    cols integer,
+    name character varying,
+    "hallID" integer NOT NULL
+);
+
+
+--
+-- TOC entry 189 (class 1259 OID 24638)
+-- Name: Hall_hallid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "Hall_hallid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2186 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: Hall_hallid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "Hall_hallid_seq" OWNED BY "Hall"."hallID";
+
+
+--
+-- TOC entry 187 (class 1259 OID 24607)
+-- Name: Movie; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE "Movie" (
+    title character varying,
+    length integer,
+    "movieID" integer NOT NULL
+);
+
+
+--
+-- TOC entry 188 (class 1259 OID 24622)
+-- Name: Movie_movieid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "Movie_movieid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2187 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: Movie_movieid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "Movie_movieid_seq" OWNED BY "Movie"."movieID";
+
+
+--
+-- TOC entry 195 (class 1259 OID 32777)
+-- Name: Seat; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE "Seat" (
+    "row" integer NOT NULL,
+    col integer NOT NULL,
+    "showID" integer NOT NULL
+);
+
+
+--
+-- TOC entry 196 (class 1259 OID 32780)
+-- Name: Seat_showid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "Seat_showid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2188 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: Seat_showid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "Seat_showid_seq" OWNED BY "Seat"."showID";
+
+
+--
+-- TOC entry 186 (class 1259 OID 24584)
+-- Name: Show; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE "Show" (
+    starttime timestamp without time zone NOT NULL,
+    "showID" integer NOT NULL,
+    "movieID" integer NOT NULL
+);
+
+
+--
+-- TOC entry 192 (class 1259 OID 24706)
+-- Name: ShowInHall; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE "ShowInHall" (
+    "showID" integer NOT NULL,
+    "hallID" integer NOT NULL
+);
+
+
+--
+-- TOC entry 194 (class 1259 OID 24715)
+-- Name: ShowInHall_hallid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "ShowInHall_hallid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2189 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: ShowInHall_hallid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "ShowInHall_hallid_seq" OWNED BY "ShowInHall"."hallID";
+
+
+--
+-- TOC entry 193 (class 1259 OID 24709)
+-- Name: ShowInHall_showid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "ShowInHall_showid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2190 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: ShowInHall_showid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "ShowInHall_showid_seq" OWNED BY "ShowInHall"."showID";
+
+
+--
+-- TOC entry 191 (class 1259 OID 24671)
+-- Name: Show_movieid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "Show_movieid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2191 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: Show_movieid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "Show_movieid_seq" OWNED BY "Show"."movieID";
+
+
+--
+-- TOC entry 190 (class 1259 OID 24648)
+-- Name: Show_showid_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE "Show_showid_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- TOC entry 2192 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: Show_showid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE "Show_showid_seq" OWNED BY "Show"."showID";
+
+
+--
+-- TOC entry 2032 (class 2604 OID 24640)
+-- Name: Hall hallID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Hall" ALTER COLUMN "hallID" SET DEFAULT nextval('"Hall_hallid_seq"'::regclass);
+
+
+--
+-- TOC entry 2034 (class 2604 OID 24624)
+-- Name: Movie movieID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Movie" ALTER COLUMN "movieID" SET DEFAULT nextval('"Movie_movieid_seq"'::regclass);
+
+
+--
+-- TOC entry 2037 (class 2604 OID 32782)
+-- Name: Seat showID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Seat" ALTER COLUMN "showID" SET DEFAULT nextval('"Seat_showid_seq"'::regclass);
+
+
+--
+-- TOC entry 2033 (class 2604 OID 24650)
+-- Name: Show showID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Show" ALTER COLUMN "showID" SET DEFAULT nextval('"Show_showid_seq"'::regclass);
+
+
+--
+-- TOC entry 2035 (class 2604 OID 24711)
+-- Name: ShowInHall showID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "ShowInHall" ALTER COLUMN "showID" SET DEFAULT nextval('"ShowInHall_showid_seq"'::regclass);
+
+
+--
+-- TOC entry 2036 (class 2604 OID 24717)
+-- Name: ShowInHall hallID; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "ShowInHall" ALTER COLUMN "hallID" SET DEFAULT nextval('"ShowInHall_hallid_seq"'::regclass);
+
+
+--
+-- TOC entry 2169 (class 0 OID 24576)
+-- Dependencies: 185
+-- Data for Name: Hall; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO "Hall" VALUES (8, 8, 'Medel', 2);
+INSERT INTO "Hall" VALUES (16, 16, 'Stor', 3);
+INSERT INTO "Hall" VALUES (4, 4, 'Liten', 1);
+
+
+--
+-- TOC entry 2193 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: Hall_hallid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"Hall_hallid_seq"', 3, true);
+
+
+--
+-- TOC entry 2171 (class 0 OID 24607)
+-- Dependencies: 187
+-- Data for Name: Movie; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO "Movie" VALUES ('Star Wars', 120, 1);
+INSERT INTO "Movie" VALUES ('Indiana Jones', 180, 2);
+INSERT INTO "Movie" VALUES ('Tomb Raider', 140, 3);
+INSERT INTO "Movie" VALUES ('Batman', 120, 4);
+INSERT INTO "Movie" VALUES ('Superman', 160, 5);
+INSERT INTO "Movie" VALUES ('Lord Of The Rings', 400, 0);
+
+
+--
+-- TOC entry 2194 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: Movie_movieid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"Movie_movieid_seq"', 7, true);
+
+
+--
+-- TOC entry 2179 (class 0 OID 32777)
+-- Dependencies: 195
+-- Data for Name: Seat; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO "Seat" VALUES (4, 4, 94);
+INSERT INTO "Seat" VALUES (4, 3, 94);
+INSERT INTO "Seat" VALUES (4, 2, 94);
+INSERT INTO "Seat" VALUES (4, 1, 94);
+INSERT INTO "Seat" VALUES (2, 3, 94);
+INSERT INTO "Seat" VALUES (2, 4, 94);
+INSERT INTO "Seat" VALUES (14, 1, 91);
+INSERT INTO "Seat" VALUES (14, 2, 91);
+INSERT INTO "Seat" VALUES (14, 3, 91);
+INSERT INTO "Seat" VALUES (14, 4, 91);
+INSERT INTO "Seat" VALUES (14, 5, 91);
+INSERT INTO "Seat" VALUES (14, 6, 91);
+INSERT INTO "Seat" VALUES (14, 7, 91);
+INSERT INTO "Seat" VALUES (14, 8, 91);
+INSERT INTO "Seat" VALUES (14, 9, 91);
+INSERT INTO "Seat" VALUES (14, 10, 91);
+INSERT INTO "Seat" VALUES (14, 11, 91);
+INSERT INTO "Seat" VALUES (14, 12, 91);
+INSERT INTO "Seat" VALUES (14, 13, 91);
+INSERT INTO "Seat" VALUES (14, 14, 91);
+INSERT INTO "Seat" VALUES (14, 15, 91);
+INSERT INTO "Seat" VALUES (14, 16, 91);
+INSERT INTO "Seat" VALUES (2, 15, 91);
+INSERT INTO "Seat" VALUES (1, 13, 91);
+INSERT INTO "Seat" VALUES (4, 4, 91);
+INSERT INTO "Seat" VALUES (5, 3, 91);
+INSERT INTO "Seat" VALUES (4, 3, 91);
+INSERT INTO "Seat" VALUES (4, 6, 91);
+INSERT INTO "Seat" VALUES (7, 7, 91);
+INSERT INTO "Seat" VALUES (4, 7, 91);
+INSERT INTO "Seat" VALUES (8, 7, 91);
+INSERT INTO "Seat" VALUES (6, 7, 91);
+INSERT INTO "Seat" VALUES (9, 9, 91);
+INSERT INTO "Seat" VALUES (6, 6, 91);
+INSERT INTO "Seat" VALUES (2, 3, 91);
+INSERT INTO "Seat" VALUES (3, 6, 91);
+INSERT INTO "Seat" VALUES (2, 4, 91);
+INSERT INTO "Seat" VALUES (5, 2, 91);
+INSERT INTO "Seat" VALUES (9, 6, 91);
+INSERT INTO "Seat" VALUES (16, 1, 91);
+INSERT INTO "Seat" VALUES (16, 2, 91);
+INSERT INTO "Seat" VALUES (16, 3, 91);
+INSERT INTO "Seat" VALUES (16, 4, 91);
+INSERT INTO "Seat" VALUES (16, 5, 91);
+INSERT INTO "Seat" VALUES (16, 6, 91);
+INSERT INTO "Seat" VALUES (16, 7, 91);
+INSERT INTO "Seat" VALUES (16, 8, 91);
+INSERT INTO "Seat" VALUES (16, 9, 91);
+INSERT INTO "Seat" VALUES (16, 10, 91);
+INSERT INTO "Seat" VALUES (16, 11, 91);
+INSERT INTO "Seat" VALUES (16, 12, 91);
+INSERT INTO "Seat" VALUES (16, 13, 91);
+INSERT INTO "Seat" VALUES (16, 14, 91);
+INSERT INTO "Seat" VALUES (2, 6, 91);
+INSERT INTO "Seat" VALUES (6, 8, 91);
+INSERT INTO "Seat" VALUES (7, 8, 91);
+INSERT INTO "Seat" VALUES (8, 8, 91);
+INSERT INTO "Seat" VALUES (5, 4, 91);
+INSERT INTO "Seat" VALUES (8, 9, 91);
+INSERT INTO "Seat" VALUES (9, 5, 91);
+INSERT INTO "Seat" VALUES (6, 4, 91);
+INSERT INTO "Seat" VALUES (3, 3, 91);
+INSERT INTO "Seat" VALUES (5, 5, 91);
+INSERT INTO "Seat" VALUES (7, 6, 91);
+INSERT INTO "Seat" VALUES (3, 5, 91);
+INSERT INTO "Seat" VALUES (5, 6, 91);
+INSERT INTO "Seat" VALUES (6, 5, 91);
+INSERT INTO "Seat" VALUES (3, 4, 91);
+INSERT INTO "Seat" VALUES (5, 1, 91);
+INSERT INTO "Seat" VALUES (5, 16, 91);
+INSERT INTO "Seat" VALUES (2, 8, 96);
+INSERT INTO "Seat" VALUES (2, 9, 96);
+INSERT INTO "Seat" VALUES (2, 10, 96);
+INSERT INTO "Seat" VALUES (2, 11, 96);
+INSERT INTO "Seat" VALUES (2, 12, 96);
+INSERT INTO "Seat" VALUES (16, 16, 96);
+INSERT INTO "Seat" VALUES (16, 15, 96);
+INSERT INTO "Seat" VALUES (16, 14, 96);
+INSERT INTO "Seat" VALUES (16, 13, 96);
+INSERT INTO "Seat" VALUES (16, 12, 96);
+INSERT INTO "Seat" VALUES (16, 11, 96);
+INSERT INTO "Seat" VALUES (16, 10, 96);
+INSERT INTO "Seat" VALUES (16, 9, 96);
+INSERT INTO "Seat" VALUES (16, 8, 96);
+INSERT INTO "Seat" VALUES (16, 7, 96);
+INSERT INTO "Seat" VALUES (16, 6, 96);
+INSERT INTO "Seat" VALUES (15, 15, 92);
+INSERT INTO "Seat" VALUES (3, 3, 71);
+INSERT INTO "Seat" VALUES (4, 3, 71);
+INSERT INTO "Seat" VALUES (4, 4, 71);
+INSERT INTO "Seat" VALUES (3, 2, 71);
+INSERT INTO "Seat" VALUES (2, 2, 71);
+INSERT INTO "Seat" VALUES (2, 3, 71);
+INSERT INTO "Seat" VALUES (3, 4, 71);
+INSERT INTO "Seat" VALUES (1, 1, 71);
+INSERT INTO "Seat" VALUES (1, 2, 71);
+INSERT INTO "Seat" VALUES (1, 3, 71);
+INSERT INTO "Seat" VALUES (1, 4, 71);
+INSERT INTO "Seat" VALUES (2, 1, 71);
+INSERT INTO "Seat" VALUES (2, 4, 71);
+INSERT INTO "Seat" VALUES (3, 1, 71);
+INSERT INTO "Seat" VALUES (4, 1, 71);
+INSERT INTO "Seat" VALUES (4, 2, 71);
+INSERT INTO "Seat" VALUES (3, 4, 64);
+
+
+--
+-- TOC entry 2195 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: Seat_showid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"Seat_showid_seq"', 1, false);
+
+
+--
+-- TOC entry 2170 (class 0 OID 24584)
+-- Dependencies: 186
+-- Data for Name: Show; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO "Show" VALUES ('2018-06-06 20:56:43', 93, 1);
+INSERT INTO "Show" VALUES ('2018-12-23 14:00:00', 94, 1);
+INSERT INTO "Show" VALUES ('2018-11-11 12:00:00', 95, 5);
+INSERT INTO "Show" VALUES ('2018-10-10 10:10:00', 96, 2);
+INSERT INTO "Show" VALUES ('2018-11-11 17:00:00', 97, 0);
+INSERT INTO "Show" VALUES ('2018-07-07 12:00:00', 98, 1);
+INSERT INTO "Show" VALUES ('2019-01-01 12:00:00', 99, 0);
+INSERT INTO "Show" VALUES ('2018-08-10 10:10:00', 100, 0);
+INSERT INTO "Show" VALUES ('2018-12-12 08:00:00', 101, 5);
+INSERT INTO "Show" VALUES ('2018-12-11 10:00:00', 134, 4);
+INSERT INTO "Show" VALUES ('2018-06-14 00:56:41', 64, 3);
+INSERT INTO "Show" VALUES ('2018-05-28 19:56:41', 65, 5);
+INSERT INTO "Show" VALUES ('2018-06-03 12:56:41', 66, 2);
+INSERT INTO "Show" VALUES ('2018-06-04 07:56:41', 67, 1);
+INSERT INTO "Show" VALUES ('2018-06-02 19:56:41', 68, 3);
+INSERT INTO "Show" VALUES ('2018-05-19 06:56:41', 69, 5);
+INSERT INTO "Show" VALUES ('2018-06-09 03:56:41', 70, 2);
+INSERT INTO "Show" VALUES ('2018-06-14 12:56:41', 71, 3);
+INSERT INTO "Show" VALUES ('2018-05-25 23:56:41', 72, 3);
+INSERT INTO "Show" VALUES ('2018-05-17 03:56:41', 73, 4);
+INSERT INTO "Show" VALUES ('2018-05-19 17:56:41', 74, 5);
+INSERT INTO "Show" VALUES ('2018-06-05 03:56:42', 75, 5);
+INSERT INTO "Show" VALUES ('2018-05-20 14:56:42', 76, 0);
+INSERT INTO "Show" VALUES ('2018-06-13 09:56:42', 77, 2);
+INSERT INTO "Show" VALUES ('2018-06-06 16:56:42', 78, 4);
+INSERT INTO "Show" VALUES ('2018-06-13 00:56:42', 79, 2);
+INSERT INTO "Show" VALUES ('2018-06-11 09:56:42', 80, 2);
+INSERT INTO "Show" VALUES ('2018-05-18 07:56:42', 81, 5);
+INSERT INTO "Show" VALUES ('2018-05-29 08:56:42', 82, 4);
+INSERT INTO "Show" VALUES ('2018-06-02 08:56:42', 83, 5);
+INSERT INTO "Show" VALUES ('2018-05-28 01:56:42', 84, 1);
+INSERT INTO "Show" VALUES ('2018-06-15 12:56:42', 85, 0);
+INSERT INTO "Show" VALUES ('2018-06-02 08:56:42', 86, 1);
+INSERT INTO "Show" VALUES ('2018-06-04 04:56:42', 87, 5);
+INSERT INTO "Show" VALUES ('2018-06-10 01:56:42', 88, 1);
+INSERT INTO "Show" VALUES ('2018-06-05 17:56:43', 89, 0);
+INSERT INTO "Show" VALUES ('2018-06-04 05:56:43', 90, 3);
+INSERT INTO "Show" VALUES ('2018-06-16 03:56:43', 91, 4);
+INSERT INTO "Show" VALUES ('2018-05-27 17:56:43', 92, 4);
+
+
+--
+-- TOC entry 2176 (class 0 OID 24706)
+-- Dependencies: 192
+-- Data for Name: ShowInHall; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO "ShowInHall" VALUES (64, 1);
+INSERT INTO "ShowInHall" VALUES (65, 1);
+INSERT INTO "ShowInHall" VALUES (66, 1);
+INSERT INTO "ShowInHall" VALUES (67, 1);
+INSERT INTO "ShowInHall" VALUES (68, 1);
+INSERT INTO "ShowInHall" VALUES (69, 1);
+INSERT INTO "ShowInHall" VALUES (70, 1);
+INSERT INTO "ShowInHall" VALUES (71, 1);
+INSERT INTO "ShowInHall" VALUES (72, 1);
+INSERT INTO "ShowInHall" VALUES (73, 1);
+INSERT INTO "ShowInHall" VALUES (74, 2);
+INSERT INTO "ShowInHall" VALUES (75, 2);
+INSERT INTO "ShowInHall" VALUES (76, 2);
+INSERT INTO "ShowInHall" VALUES (77, 2);
+INSERT INTO "ShowInHall" VALUES (78, 2);
+INSERT INTO "ShowInHall" VALUES (79, 2);
+INSERT INTO "ShowInHall" VALUES (80, 2);
+INSERT INTO "ShowInHall" VALUES (81, 2);
+INSERT INTO "ShowInHall" VALUES (82, 2);
+INSERT INTO "ShowInHall" VALUES (83, 2);
+INSERT INTO "ShowInHall" VALUES (84, 3);
+INSERT INTO "ShowInHall" VALUES (85, 3);
+INSERT INTO "ShowInHall" VALUES (86, 3);
+INSERT INTO "ShowInHall" VALUES (87, 3);
+INSERT INTO "ShowInHall" VALUES (88, 3);
+INSERT INTO "ShowInHall" VALUES (89, 3);
+INSERT INTO "ShowInHall" VALUES (90, 3);
+INSERT INTO "ShowInHall" VALUES (91, 3);
+INSERT INTO "ShowInHall" VALUES (92, 3);
+INSERT INTO "ShowInHall" VALUES (93, 3);
+INSERT INTO "ShowInHall" VALUES (94, 1);
+INSERT INTO "ShowInHall" VALUES (95, 2);
+INSERT INTO "ShowInHall" VALUES (96, 3);
+INSERT INTO "ShowInHall" VALUES (97, 2);
+INSERT INTO "ShowInHall" VALUES (98, 3);
+INSERT INTO "ShowInHall" VALUES (99, 1);
+INSERT INTO "ShowInHall" VALUES (100, 1);
+INSERT INTO "ShowInHall" VALUES (101, 3);
+INSERT INTO "ShowInHall" VALUES (134, 1);
+
+
+--
+-- TOC entry 2196 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: ShowInHall_hallid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"ShowInHall_hallid_seq"', 1, false);
+
+
+--
+-- TOC entry 2197 (class 0 OID 0)
+-- Dependencies: 193
+-- Name: ShowInHall_showid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"ShowInHall_showid_seq"', 1, false);
+
+
+--
+-- TOC entry 2198 (class 0 OID 0)
+-- Dependencies: 191
+-- Name: Show_movieid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"Show_movieid_seq"', 1, false);
+
+
+--
+-- TOC entry 2199 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: Show_showid_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('"Show_showid_seq"', 134, true);
+
+
+--
+-- TOC entry 2039 (class 2606 OID 24656)
+-- Name: Hall hall_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Hall"
+    ADD CONSTRAINT hall_pk PRIMARY KEY ("hallID");
+
+
+--
+-- TOC entry 2043 (class 2606 OID 24632)
+-- Name: Movie movie_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Movie"
+    ADD CONSTRAINT movie_pk PRIMARY KEY ("movieID");
+
+
+--
+-- TOC entry 2047 (class 2606 OID 32787)
+-- Name: Seat seat_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Seat"
+    ADD CONSTRAINT seat_pk PRIMARY KEY ("row", col, "showID");
+
+
+--
+-- TOC entry 2041 (class 2606 OID 24722)
+-- Name: Show show_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Show"
+    ADD CONSTRAINT show_pk PRIMARY KEY ("showID");
+
+
+--
+-- TOC entry 2045 (class 2606 OID 24724)
+-- Name: ShowInHall showinhall_pk; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "ShowInHall"
+    ADD CONSTRAINT showinhall_pk PRIMARY KEY ("showID", "hallID");
+
+
+--
+-- TOC entry 2051 (class 2606 OID 32788)
+-- Name: Seat seat_show_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Seat"
+    ADD CONSTRAINT seat_show_fk FOREIGN KEY ("showID") REFERENCES "Show"("showID");
+
+
+--
+-- TOC entry 2048 (class 2606 OID 24678)
+-- Name: Show show_movie_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "Show"
+    ADD CONSTRAINT show_movie_fk FOREIGN KEY ("movieID") REFERENCES "Movie"("movieID");
+
+
+--
+-- TOC entry 2049 (class 2606 OID 24725)
+-- Name: ShowInHall showinhall_hall_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "ShowInHall"
+    ADD CONSTRAINT showinhall_hall_fk FOREIGN KEY ("hallID") REFERENCES "Hall"("hallID") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2050 (class 2606 OID 24730)
+-- Name: ShowInHall showinhall_show_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY "ShowInHall"
+    ADD CONSTRAINT showinhall_show_fk FOREIGN KEY ("showID") REFERENCES "Show"("showID") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+-- Completed on 2018-05-17 12:17:18
+
+--
+-- PostgreSQL database dump complete
+--
+
